@@ -62,6 +62,32 @@ function chatStripe(isAi, value, uniqueId) {
     )
 }
 
+function handleDalleResponse(response) {
+  if (response.ok) {
+    const data = await response.json();
+    const imageUrl = data.imageUrl;
+    const imageElement = document.createElement("img");
+    imageElement.src = imageUrl;
+    chatContainer.appendChild(imageElement);
+  } else {
+    const err = await response.text()
+    console.error(err);
+  }
+}
+
+async function sendDalleRequest(prompt) {
+  const response = await fetch('https://researchassistant.onrender.com/dalle', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      prompt: prompt
+    })
+  });
+  handleDalleResponse(response);
+}
+
 const handleSubmit = async (e) => {
     e.preventDefault()
 
