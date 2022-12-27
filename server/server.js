@@ -64,6 +64,27 @@ app.post('/', async (req, res) => {
   }
 })
 
+app.post('/dalle', async (req, res) => {
+  try {
+    const prompt = req.body.prompt;
+
+    const response = await openai.createImage({
+      model: "image-alpha-001",
+      prompt: `${prompt}`,
+      size: "1024x1024",
+      response_format: "url",
+    });
+
+    res.status(200).send({
+      imageUrl: response.data.url
+    });
+
+  } catch (error) {
+    console.error(error)
+    res.status(500).send(error || 'Something went wrong');
+  }
+})
+
 app.listen(5000, () => console.log('AI server started on http://localhost:5000'))
 
 async function generateResponseWithHistory(context, history) {
