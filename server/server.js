@@ -31,10 +31,13 @@ app.post('/', async (req, res) => {
     if (prompt.toLowerCase().startsWith("debug")) {
       const code = prompt.substring("debug".length).trim();
       const response = await openai.createCompletion({
-        model: "code-alpha-001",
-        prompt: `${code}`,
+        model: "text-davinci-003",
+        prompt: `${code}`, `${prompt}`,
         temperature: 0.5,
         max_tokens: 3000,
+        top_p: 1,
+        frequency_penalty: 0.5,
+        presence_penalty: 0,
       });
       res.status(200).send({
         bot: response.data.choices[0].text
