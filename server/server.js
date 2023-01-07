@@ -71,7 +71,7 @@ app.listen(5000, () => console.log('AI server started on http://localhost:5000')
 
 async function generateResponseWithHistory(context, history) {
   const response = await openai.createCompletion({
-    model: "text-davinci-002",
+    model: "text-davinci-003",
     prompt: `${context}\n${history[history.length - 1]}`,
     temperature: 0.5,
     max_tokens: 3000,
